@@ -1,0 +1,12 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:snowflake://tza61701.us-east-1.snowflakecomputing.com/?warehouse=COMPUTE_WH&db=txn_db&schema=PUBLIC
+    username: PayalRane03
+    password: Payalrane03
+    driverClassName: com.snowflake.client.jdbc.SnowflakeDriver
+server:
+   port: 8080
