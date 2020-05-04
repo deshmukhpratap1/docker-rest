@@ -13,10 +13,32 @@ public class IssueRepository {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
-	@Transactional(readOnly= true)
-	public List<Issue> findAllIssues(){
+
+	@Transactional(readOnly = true)
+	public List<Issue> findAllIssues() {
 		return jdbcTemplate.query("select * from ISSUE", new IssueMapper());
-		
 	}
+
+	public void createIssue(Issue issue) {
+		String sqlQuery = "insert into ISSUE(ISSUE_NAME,ISSUE_DETAILS) " + "values (?, ?)";
+		jdbcTemplate.update(sqlQuery, issue.getIssue_name(), issue.getIssue_message());
+	}
+
+	public Issue getIssueById(Long id) {
+		String sqlQuery = "select * from ISSUE where ISSUE_ID = ?";
+		return jdbcTemplate.queryForObject(sqlQuery, new IssueMapper(), id);
+	}
+
+	public void updateIssueById(Long id, Issue issue) {
+		String sqlQuery = "update ISSUE set " + "ISSUE_NAME = ?, ISSUE_DETAILS = ?"
+				+ "where ISSUE_ID = ?";
+		jdbcTemplate.update(sqlQuery, issue.getIssue_name(), issue.getIssue_message(),
+				issue.getId());
+	}
+
+	public boolean deleteConsultantById(Long id) {
+		String sqlQuery = "delete from ISSUE where ISSUE_ID = ?";
+		return jdbcTemplate.update(sqlQuery, id) > 0;
+	}
+
 }
